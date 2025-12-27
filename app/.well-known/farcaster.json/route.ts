@@ -4,27 +4,26 @@ export async function GET() {
   const appUrl = "https://mastermind-baseapp.vercel.app";
 
   const manifest = {
-    "accountAssociation": {
-      "header": "eyJmaWQiOjU0ODczNSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDk1MDU2QUM2QUY2YjMzNjg2MTY2MkQ4N0YyNzRBODgyNzEzZmUxNkUifQ",
-      "payload": "eyJkb21haW4iOiJzeW50YXgtYXJyYXkudmVyY2VsLmFwcCJ9",
-      "signature": "WXLsUhAMP2cgzynBp8+mZTUWS388nYVm21PtOlU1i4x8Wp4FB79VDcQT7Cp9nT5xw+JgzYNZClhcm+8/QqzzuRs="
-    },
-    "miniapp": {
-      "name": "Syntax Array",
-      "version": "1",
-      "iconUrl": "https://syntax-array.vercel.app/media/icon.png",
-      "homeUrl": "https://syntax-array.vercel.app/",
-      "splashImageUrl": "https://syntax-array.vercel.app/media/icon.png",
-      "splashBackgroundColor": "#000000",
-      "webhookUrl": "https://syntax-array.vercel.app/api/webhook",
-      "subtitle": "syntax array baseapp",
-      "description": "Your magic is real",
-      "primaryCategory": "art-creativity",
-      "heroImageUrl": "https://syntax-array.vercel.app/media/icon.png",
-      "tags": ["art", "generative"],
-      "noindex": false,
-      "tagline": "Play instantly",
-      "ogTitle": "Syntax Array"
+  "miniapp": {
+    "name": "Mastermind",
+    "version": "1",
+    "iconUrl": "https://mastermind-baseapp.vercel.app/",
+    "homeUrl": "https://mastermind-baseapp.vercel.app/",
+    "buttonTitle": "Play Logic Game",
+    "splashImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png",
+    "splashBackgroundColor": "#000000",
+    "subtitle": "Play Logic Color Game",
+    "description": "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
+    "primaryCategory": "games",
+    "heroImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjU0ODczNSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDk1MDU2QUM2QUY2YjMzNjg2MTY2MkQ4N0YyNzRBODgyNzEzZmUxNkUifQ",
+    "payload": "eyJkb21haW4iOiJtYXN0ZXJtaW5kLWJhc2VhcHAudmVyY2VsLmFwcCJ9",
+    "signature": "T4Q7WKPnhLmkSJZbQbMi8Kwle/dTa+WPNC9JxIf7et8DDDfn3Cd8CNBcl/6T6AX/7E1uNSLV0bqNCnB5XaWxqBs="
+  },
+    "BaseBuilder": {
+        "ownerAddress": "0x66D89085a083d18a5F0FbdDc4AC2DBe57D3B8031"
     }
   };
 
