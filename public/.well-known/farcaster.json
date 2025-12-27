@@ -1,0 +1,23 @@
+{
+  "frame": {
+    "name": "Mastermind",
+    "version": "1",
+    "iconUrl": "https://mastermind-baseapp.vercel.app/",
+    "homeUrl": "https://mastermind-baseapp.vercel.app/",
+    "buttonTitle": "Play Logic Game",
+    "splashImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png",
+    "splashBackgroundColor": "#000000",
+    "subtitle": "Play Logic Color Game",
+    "description": "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
+    "primaryCategory": "games",
+    "heroImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjU0ODczNSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDk1MDU2QUM2QUY2YjMzNjg2MTY2MkQ4N0YyNzRBODgyNzEzZmUxNkUifQ",
+    "payload": "eyJkb21haW4iOiIifQ",
+    "signature": "i3nSH+bpESKPRsK6cgWbgVCs4mJ7416K+g3RPVnpxoRHBo6uS6oot1r+6A9I3+7+MUJTuyoixmNXsvp0PF0wIxs="
+  },
+    "BaseBuilder": {
+        "ownerAddress": "0x66D89085a083d18a5F0FbdDc4AC2DBe57D3B8031"
+    }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import FarcasterProvider from "@/components/farcasterprovider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,11 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mastermind",
   description: "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
-  metadataBase: new URL('https://lunairefine.vercel.app'),
+  metadataBase: new URL('https://mastermind-baseapp.vercel.app/'),
   openGraph: {
     title: "Mastermind",
     description: "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
-    url: "https://lunairefine.vercel.app",
+    url: "https://mastermind-baseapp.vercel.app",
     siteName: "Mastermind",
     images: [
       {
@@ -41,14 +42,14 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
     version: "next",
-    imageUrl: "https://lunairefine.vercel.app/media/frame.png",
+    imageUrl: "https://mastermind-baseapp.vercel.app/media/frame.png",
     button: {
       title: "Play Logic Game",
       action: {
         type: "launch_frame",
-        name: "Mastermind webased",
-        url: "https://lunairefine.vercel.app",
-        splashImageUrl: "https://lunairefine.vercel.app/media/images/syntax.png",
+        name: "Mastermind Baseapp",
+        url: "https://mastermind-baseapp.vercel.app",
+        splashImageUrl: "https://mastermind-baseapp.vercel.app/media/images/syntax.png",
         splashBackgroundColor: "#000000",
       },
     },
@@ -67,7 +68,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <FarcasterProvider>
         {children}
+        </FarcasterProvider>
       </body>
     </html>
   );
