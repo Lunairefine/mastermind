@@ -7,7 +7,7 @@ export async function GET() {
   "miniapp": {
     "name": "Mastermind",
     "version": "1",
-    "iconUrl": "https://mastermind-baseapp.vercel.app/",
+    "iconUrl": "https://mastermind-baseapp.vercel.app/media/icon.png",
     "homeUrl": "https://mastermind-baseapp.vercel.app/",
     "buttonTitle": "Play Logic Game",
     "splashImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png",
@@ -15,6 +15,10 @@ export async function GET() {
     "subtitle": "Play Logic Color Game",
     "description": "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
     "primaryCategory": "games",
+    "tags": ["games", "puzzle", "logic"],
+    "noindex": false,
+    "tagline": "Play game",
+    "ogTitle": "Mastermind Baseapp",
     "heroImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png"
   },
   "accountAssociation": {
