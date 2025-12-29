@@ -4,16 +4,20 @@ export const runtime = 'edge';
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
+    // 1. Dapatkan URL dasar (domain) saat ini agar bisa memanggil gambar di folder public
+    const { searchParams, origin } = new URL(request.url);
 
-    // Default values jika parameter kosong
     const score = searchParams.get('score') || '0';
     const time = searchParams.get('time') || '00:00';
     const username = searchParams.get('user') || 'PLAYER';
 
+    // 2. Tentukan path ke logo asli Anda.
+    // PASTIKAN file ini ada di folder public/media/images/ Anda.
+    // Jika nama filenya beda, ubah bagian 'icon.png' ini.
+    const logoUrl = `${origin}/media/images/icon.png`;
+
     return new ImageResponse(
       (
-        // Container Utama (Hitam Pekat)
         <div
           style={{
             height: '100%',
@@ -25,14 +29,14 @@ export async function GET(request: Request) {
             padding: '40px',
           }}
         >
-          {/* Kartu Abu-abu (Rounded) */}
+          {/* Kartu Abu-abu Gelap (Rounded) */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
               height: '100%',
-              backgroundColor: '#1a1a1a', // Warna kartu sesuai desain
+              backgroundColor: '#1a1a1a', 
               borderRadius: '30px',
               border: '1px solid #333',
               position: 'relative',
@@ -40,15 +44,23 @@ export async function GET(request: Request) {
               alignItems: 'center',
             }}
           >
-            {/* Header Kiri: Logo Kotak + Tulisan MASTERMIND */}
+            {/* Header Kiri: Logo + MASTERMIND */}
             <div style={{ position: 'absolute', top: 50, left: 50, display: 'flex', alignItems: 'center' }}>
-              {/* Logo Grid 2x2 Warna */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', marginRight: '15px' }}>
-                 <div style={{ width: '20px', height: '20px', backgroundColor: '#FF0000' }} />
-                 <div style={{ width: '20px', height: '20px', backgroundColor: '#FFFF00' }} />
-                 <div style={{ width: '20px', height: '20px', backgroundColor: '#00FF00' }} />
-                 <div style={{ width: '20px', height: '20px', backgroundColor: '#0000FF' }} />
-              </div>
+              
+              {/* --- PERUBAHAN DI SINI --- */}
+              {/* Kita HAPUS div kotak warna-warni, ganti dengan tag <img> */}
+              <img
+                src={logoUrl}
+                alt="Mastermind Logo"
+                width="40"
+                height="40"
+                style={{ 
+                  borderRadius: '8px', 
+                  marginRight: '15px' 
+                }}
+              />
+              {/* ------------------------- */}
+
               <span style={{ color: 'white', fontSize: 28, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: '1px' }}>
                 MASTERMIND
               </span>
@@ -61,7 +73,7 @@ export async function GET(request: Request) {
               </span>
             </div>
 
-            {/* Konten Tengah: Angka Skor Besar */}
+            {/* Konten Tengah: Angka Skor Besar & Time */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
               <span style={{ 
                 color: 'white', 
@@ -74,7 +86,6 @@ export async function GET(request: Request) {
                 {score}
               </span>
               
-              {/* Waktu Hijau di Bawah */}
               <span style={{ 
                 color: '#00FF00', 
                 fontSize: 50, 
@@ -86,7 +97,6 @@ export async function GET(request: Request) {
                 {time}
               </span>
             </div>
-
           </div>
         </div>
       ),
@@ -96,8 +106,7 @@ export async function GET(request: Request) {
       }
     );
   } catch (e: any) {
-    return new Response(`Failed to generate the image`, {
-      status: 500,
-    });
+    console.error(e);
+    return new Response(`Failed to generate the image`, { status: 500 });
   }
 }
