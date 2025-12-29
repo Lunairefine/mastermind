@@ -1,41 +1,49 @@
-"use client";
-import React, { useState } from 'react';
-import Landing from '@/components/landing';
-import Gameboard from '@/components/gameboard';
-import Status from '@/components/status';
-import { Poppins } from 'next/font/google';
+import React from 'react';
+import type { Metadata, ResolvingMetadata } from 'next';
+import ClientHome from '@/components/logicgame';
 
-const poppins = Poppins({
-  weight: ['400', '600', '700', '800', '900'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-});
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-export default function Home() {
-  const [view, setView] = useState<'landing' | 'game' | 'result'>('landing');
-  const [result, setResult] = useState({ win: false, time: '', score: 0 });
+export async function generateMetadata(
+  { searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // Cek apakah ada parameter 'score' di URL
+  const score = searchParams.score;
+  const time = searchParams.time;
 
-  return (
-    <main className={`${poppins.variable} font-poppins min-h-screen bg-black text-white`}>
-      {view === 'landing' && (
-        <Landing onStart={() => setView('game')} />
-      )}
+  // JIKA TIDAK ADA SKOR (User baru buka halaman utama)
+  // Kita return kosong, biar dia pakai default dari layout.tsx (frame.png)
+  if (!score) {
+    return {};
+  }
 
-      {view === 'game' && (
-        <Gameboard onGameOver={(win, time, score) => {
-          setResult({ win, time, score });
-          setView('result');
-        }} />
-      )}
+  // JIKA ADA SKOR (User membuka link share)
+  // Kita override gambarnya ke status.png
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mastermind-baseapp.vercel.app';
+  const statusImageUrl = `${baseUrl}/media/status.png`;
 
-      {view === 'result' && (
-        <Status 
-          isWin={result.win} 
-          time={result.time} 
-          score={result.score}
-          onHome={() => setView('landing')} 
-        />
-      )}
-    </main>
-  );
+  return {
+    title: `I scored ${score} in Mastermind!`,
+    description: `Completed in ${time}. Can you beat my score?`,
+    openGraph: {
+      images: [statusImageUrl], // Override frame.png -> status.png
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [statusImageUrl],
+    },
+    other: {
+      // Override gambar Frame Farcaster juga
+      "fc:frame:image": statusImageUrl,
+      // Opsional: Ubah tombol jadi "Play Now" daripada "Launch"
+      "fc:frame:button:1": "Try to Beat Score",
+    }
+  }
+}
+
+export default function Page() {
+  return <ClientHome />;
 }
