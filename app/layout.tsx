@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mastermind",
   description: "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
-  metadataBase: new URL('https://mastermind-baseapp.vercel.app/'),
+  metadataBase: new URL('https://pre-mastermind.vercel.app/'),
   openGraph: {
     title: "Mastermind",
     description: "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
