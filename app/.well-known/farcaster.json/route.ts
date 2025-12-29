@@ -23,8 +23,8 @@ export async function GET() {
   },
   "accountAssociation": {
     "header": "eyJmaWQiOjU0ODczNSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDk1MDU2QUM2QUY2YjMzNjg2MTY2MkQ4N0YyNzRBODgyNzEzZmUxNkUifQ",
-    "payload": "eyJkb21haW4iOiJtYXN0ZXJtaW5kLWJhc2VhcHAudmVyY2VsLmFwcCJ9",
-    "signature": "T4Q7WKPnhLmkSJZbQbMi8Kwle/dTa+WPNC9JxIf7et8DDDfn3Cd8CNBcl/6T6AX/7E1uNSLV0bqNCnB5XaWxqBs="
+    "payload": "eyJkb21haW4iOiJwcmUtbWFzdGVybWluZC52ZXJjZWwuYXBwIn0",
+    "signature": "jST6hPTlb961e0gpyiyLkQnszCAlQa3Xnb40WLNk3z8KWn7oa67xd5nCgk6XyubyzqlX0snf72c0Cnh9DCCc5xw="
   },
     "BaseBuilder": {
         "ownerAddress": "0x66D89085a083d18a5F0FbdDc4AC2DBe57D3B8031"
