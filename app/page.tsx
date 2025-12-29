@@ -1,51 +1,61 @@
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import ClientHome from '@/components/logicgame';
 
 export const dynamic = 'force-dynamic';
 
 type Props = {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 const getParam = (value?: string | string[]) =>
   Array.isArray(value) ? value[0] : value;
 
 export async function generateMetadata(
-  { searchParams }: Props
+  { searchParams }: Props,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const score = getParam(searchParams.score);
-  const time = getParam(searchParams.time) ?? '00:00';
-  const user = getParam(searchParams.user) ?? 'PLAYER';
+  const params = await searchParams;
+  
+  const score = getParam(params.score);
+  const time = getParam(params.time) ?? '00:00';
+  const user = getParam(params.user) ?? 'PLAYER';
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.startsWith('http')
-    ? process.env.NEXT_PUBLIC_APP_URL
-    : `https://${process.env.NEXT_PUBLIC_APP_URL ?? 'pre-mastermind.vercel.app'}`;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL 
+    ? (process.env.NEXT_PUBLIC_APP_URL.startsWith('http') ? process.env.NEXT_PUBLIC_APP_URL : `https://${process.env.NEXT_PUBLIC_APP_URL}`)
+    : 'https://mastermind-baseapp.vercel.app';
 
-  if (!score) {
-    return {
-      title: 'Mastermind Game',
-      description: 'Test your logic and beat the score',
-    };
-  }
+  const title = score ? `Score: ${score} - Mastermind` : 'Mastermind Game';
+  const description = score 
+    ? `I completed Mastermind in ${time}. Can you beat my score?` 
+    : 'A simple yet challenging color puzzle game.';
 
-  const ogImageUrl =
-    `${appUrl}/api/og` +
-    `?score=${encodeURIComponent(score)}` +
-    `&time=${encodeURIComponent(time)}` +
-    `&user=${encodeURIComponent(user)}`;
+  const ogImageUrl = score
+    ? `${appUrl}/api/og?score=${encodeURIComponent(score)}&time=${encodeURIComponent(time)}&user=${encodeURIComponent(user)}`
+    : `${appUrl}/media/frame.png`;
 
   return {
-    title: `Score ${score} · Mastermind`,
-    description: `Completed in ${time}. Can you beat my score?`,
+    title: title,
+    description: description,
     openGraph: {
-      title: `Score ${score} · Mastermind`,
-      description: `Completed in ${time}`,
-      images: [ogImageUrl],
+      title: title,
+      description: description,
+      url: appUrl,
+      siteName: "Mastermind",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "Mastermind Result",
+        },
+      ],
+      locale: "en_US",
+      type: "website",
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Score ${score} · Mastermind`,
-      description: `Completed in ${time}`,
+      title: title,
+      description: description,
       images: [ogImageUrl],
     },
   };
