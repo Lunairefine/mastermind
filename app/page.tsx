@@ -3,54 +3,58 @@ import React from 'react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import ClientHome from '@/components/logicgame';
 
+// Paksa render dinamis agar parameter selalu dibaca fresh
+export const dynamic = 'force-dynamic';
+
+// Definisi Tipe untuk Next.js 15/16 (Promise)
 type Props = {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-// Generate Metadata di Server
 export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const score = searchParams.score;
-  const time = searchParams.time;
-  const user = searchParams.user;
+  // 1. KUNCI PERBAIKAN: Await dulu searchParams-nya
+  const params = await searchParams;
+  
+  const score = params.score;
+  const time = params.time;
+  const user = params.user;
 
-  // 1. JIKA TIDAK ADA SKOR (Halaman Utama)
-  // Biarkan kosong, nanti otomatis pakai default dari layout.tsx (frame.png)
-  if (!score) {
-    return {}; 
-  }
+  // Debugging: Cek logs Vercel untuk memastikan data masuk
+  console.log("METADATA PARAMS (Next.js 16):", { score, time, user });
 
-  // 2. JIKA ADA SKOR (Link Share)
-  // Gunakan API Route untuk generate gambar dinamis
+  // 2. Base URL (Gunakan Env Var atau hardcode staging saat ini)
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://pre-mastermind.vercel.app';
   
-  // NOTE: Gunakan API OG agar angkanya berubah sesuai skor
-  // Jika Anda pakai status.png statis, ganti baris ini jadi: const imageUrl = `${baseUrl}/media/status.png`;
-  const imageUrl = `${baseUrl}/api/og?score=${score}&time=${time}&user=${user}`;
+  // 3. Jika tidak ada skor, return default
+  if (!score) {
+    return {};
+  }
+
+  // 4. Generate URL Gambar
+  const ogImageUrl = `${baseUrl}/api/og?score=${score}&time=${time || '00:00'}&user=${user || 'PLAYER'}`;
 
   return {
     title: `Score: ${score} - Mastermind`,
     description: `Completed in ${time}. Can you beat my score?`,
     openGraph: {
-      images: [imageUrl], // Override gambar WA/Twitter
+      images: [ogImageUrl], 
     },
     twitter: {
       card: 'summary_large_image',
-      images: [imageUrl],
+      images: [ogImageUrl],
     },
     other: {
-      // PENTING: Override Frame Farcaster secara manual
-      // Kita harus recreate JSON string-nya agar Farcaster membacanya sebagai frame baru
       "fc:frame": JSON.stringify({
         version: "next",
-        imageUrl: imageUrl, // <--- GAMBAR SKOR DISINI
+        imageUrl: ogImageUrl,
         button: {
-          title: "Try to Beat Score", // Ubah tombol jadi ajakan main
+          title: "Play Now",
           action: {
             type: "launch_frame",
-            name: "Mastermind Baseapp",
+            name: "Mastermind",
             url: baseUrl,
             splashImageUrl: `${baseUrl}/media/images/syntax.png`,
             splashBackgroundColor: "#000000",
@@ -61,7 +65,6 @@ export async function generateMetadata(
   };
 }
 
-// Render Client Component (Game)
 export default function Page() {
   return <ClientHome />;
 }
