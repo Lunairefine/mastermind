@@ -37,7 +37,7 @@ const Status: React.FC<StatusProps> = ({ score, time, isWin, onHome }) => {
     const encodedText = encodeURIComponent(text);
     const encodedEmbed = encodeURIComponent(appUrl.toString());
     
-    window.open(`https://farcast.xyz/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`, '_blank');
+    window.open(`https://farcaster.xyz/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`, '_blank');
   };
 
   return (
