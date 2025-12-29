@@ -10,13 +10,16 @@ export async function GET(request: Request) {
     const time = (searchParams.get('time') || '00:00').slice(0, 10);
     const username = (searchParams.get('user') || 'PLAYER').slice(0, 12).toUpperCase();
 
-    const logoUrl = `${origin}/media/icon.png`;
+    const logoUrl = `${origin}/media/images/syntax.png`;
 
     return new ImageResponse(
       (
         <div tw="flex flex-col w-full h-full bg-black p-10">
+          
           <div tw="flex flex-col w-full h-full bg-[#1a1a1a] rounded-[30px] border-2 border-[#333333] p-10 relative">
+            
             <div tw="flex justify-between items-center w-full h-16">
+              
               <div tw="flex items-center">
                 <img
                   src={logoUrl}
@@ -57,7 +60,7 @@ export async function GET(request: Request) {
         </div>
       ),
       {
-        width: 1000,
+        width: 1200,
         height: 630,
       }
     );
