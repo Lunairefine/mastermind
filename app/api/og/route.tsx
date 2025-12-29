@@ -12,9 +12,9 @@ export async function GET(request: Request) {
     const username = searchParams.get('user') || 'PLAYER';
 
     // 2. Tentukan path ke logo asli Anda.
-    // PASTIKAN file ini ada di folder public/media/images/ Anda.
+    // PASTIKAN file ini ada di folder public/media/ Anda.
     // Jika nama filenya beda, ubah bagian 'icon.png' ini.
-    const logoUrl = `${origin}/media/images/icon.png`;
+    const logoUrl = `${origin}/media/icon.png`;
 
     return new ImageResponse(
       (
