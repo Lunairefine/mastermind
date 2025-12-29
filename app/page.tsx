@@ -1,3 +1,4 @@
+// src/app/page.tsx
 import React from 'react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import ClientHome from '@/components/logicgame';
@@ -6,44 +7,61 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
+// Generate Metadata di Server
 export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // Cek apakah ada parameter 'score' di URL
   const score = searchParams.score;
   const time = searchParams.time;
+  const user = searchParams.user;
 
-  // JIKA TIDAK ADA SKOR (User baru buka halaman utama)
-  // Kita return kosong, biar dia pakai default dari layout.tsx (frame.png)
+  // 1. JIKA TIDAK ADA SKOR (Halaman Utama)
+  // Biarkan kosong, nanti otomatis pakai default dari layout.tsx (frame.png)
   if (!score) {
-    return {};
+    return {}; 
   }
 
-  // JIKA ADA SKOR (User membuka link share)
-  // Kita override gambarnya ke status.png
+  // 2. JIKA ADA SKOR (Link Share)
+  // Gunakan API Route untuk generate gambar dinamis
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mastermind-baseapp.vercel.app';
-  const statusImageUrl = `${baseUrl}/media/status.png`;
+  
+  // NOTE: Gunakan API OG agar angkanya berubah sesuai skor
+  // Jika Anda pakai status.png statis, ganti baris ini jadi: const imageUrl = `${baseUrl}/media/status.png`;
+  const imageUrl = `${baseUrl}/api/og?score=${score}&time=${time}&user=${user}`;
 
   return {
-    title: `I scored ${score} in Mastermind!`,
+    title: `Score: ${score} - Mastermind`,
     description: `Completed in ${time}. Can you beat my score?`,
     openGraph: {
-      images: [statusImageUrl], // Override frame.png -> status.png
+      images: [imageUrl], // Override gambar WA/Twitter
     },
     twitter: {
       card: 'summary_large_image',
-      images: [statusImageUrl],
+      images: [imageUrl],
     },
     other: {
-      // Override gambar Frame Farcaster juga
-      "fc:frame:image": statusImageUrl,
-      // Opsional: Ubah tombol jadi "Play Now" daripada "Launch"
-      "fc:frame:button:1": "Try to Beat Score",
+      // PENTING: Override Frame Farcaster secara manual
+      // Kita harus recreate JSON string-nya agar Farcaster membacanya sebagai frame baru
+      "fc:frame": JSON.stringify({
+        version: "next",
+        imageUrl: imageUrl, // <--- GAMBAR SKOR DISINI
+        button: {
+          title: "Try to Beat Score", // Ubah tombol jadi ajakan main
+          action: {
+            type: "launch_frame",
+            name: "Mastermind Baseapp",
+            url: baseUrl,
+            splashImageUrl: `${baseUrl}/media/images/syntax.png`,
+            splashBackgroundColor: "#000000",
+          },
+        },
+      }),
     }
-  }
+  };
 }
 
+// Render Client Component (Game)
 export default function Page() {
   return <ClientHome />;
 }

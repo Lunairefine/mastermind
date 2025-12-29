@@ -1,4 +1,5 @@
-"use client";
+// src/components/ClientHome.tsx
+"use client"; // File ini boleh pakai 'use client'
 
 import React, { useState } from 'react';
 import Landing from '@/components/landing';
