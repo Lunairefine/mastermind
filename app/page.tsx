@@ -1,59 +1,53 @@
-import React from 'react';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import ClientHome from '@/components/logicgame';
 
 export const dynamic = 'force-dynamic';
 
 type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+const getParam = (value?: string | string[]) =>
+  Array.isArray(value) ? value[0] : value;
 
 export async function generateMetadata(
-  { searchParams }: Props,
-  parent: ResolvingMetadata
+  { searchParams }: Props
 ): Promise<Metadata> {
-  const params = await searchParams;
-  
-  const score = params.score;
-  const time = params.time;
-  const user = params.user;
+  const score = getParam(searchParams.score);
+  const time = getParam(searchParams.time) ?? '00:00';
+  const user = getParam(searchParams.user) ?? 'PLAYER';
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL 
-    ? `https://${process.env.NEXT_PUBLIC_APP_URL}` 
-    : 'https://pre-mastermind.vercel.app';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.startsWith('http')
+    ? process.env.NEXT_PUBLIC_APP_URL
+    : `https://${process.env.NEXT_PUBLIC_APP_URL ?? 'pre-mastermind.vercel.app'}`;
 
   if (!score) {
-    return {};
+    return {
+      title: 'Mastermind Game',
+      description: 'Test your logic and beat the score',
+    };
   }
 
-  const ogImageUrl = `${appUrl}/api/og?score=${score}&time=${time || '00:00'}&user=${user || 'PLAYER'}`;
+  const ogImageUrl =
+    `${appUrl}/api/og` +
+    `?score=${encodeURIComponent(score)}` +
+    `&time=${encodeURIComponent(time)}` +
+    `&user=${encodeURIComponent(user)}`;
 
   return {
-    title: `Score: ${score} - Mastermind`,
+    title: `Score ${score} · Mastermind`,
     description: `Completed in ${time}. Can you beat my score?`,
     openGraph: {
-      images: [ogImageUrl], 
+      title: `Score ${score} · Mastermind`,
+      description: `Completed in ${time}`,
+      images: [ogImageUrl],
     },
     twitter: {
       card: 'summary_large_image',
+      title: `Score ${score} · Mastermind`,
+      description: `Completed in ${time}`,
       images: [ogImageUrl],
     },
-    other: {
-      "fc:frame": JSON.stringify({
-        version: "next",
-        imageUrl: ogImageUrl,
-        button: {
-          title: "Play Game",
-          action: {
-            type: "launch_frame",
-            name: "Mastermind",
-            url: appUrl,
-            splashImageUrl: `${appUrl}/media/icon.png`,
-            splashBackgroundColor: "#000000",
-          },
-        },
-      }),
-    }
   };
 }
 
