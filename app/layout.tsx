@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Mastermind",
     description: "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
-    url: "https://mastermind-baseapp.vercel.app",
+    url: "https://pre-mastermind.vercel.app",
     siteName: "Mastermind",
     images: [
       {
