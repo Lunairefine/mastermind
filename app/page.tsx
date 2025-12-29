@@ -43,7 +43,7 @@ export async function generateMetadata(
         version: "next",
         imageUrl: ogImageUrl,
         button: {
-          title: "Play Now",
+          title: "Play Game",
           action: {
             type: "launch_frame",
             name: "Mastermind",
