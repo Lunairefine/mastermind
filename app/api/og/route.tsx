@@ -6,12 +6,11 @@ export async function GET(request: Request) {
   try {
     const { searchParams, origin } = new URL(request.url);
 
-    // Safety: Potong teks jika terlalu panjang agar tidak merusak gambar
-    const score = (searchParams.get('score') || '0').slice(0, 6); // Max 6 digit score
+    // Safety: Slice input agar tidak merusak layout
+    const score = (searchParams.get('score') || '0').slice(0, 6);
     const time = (searchParams.get('time') || '00:00').slice(0, 10);
-    const username = (searchParams.get('user') || 'PLAYER').slice(0, 12).toUpperCase(); // Max 12 char username
+    const username = (searchParams.get('user') || 'PLAYER').slice(0, 12).toUpperCase();
 
-    // Pastikan path gambar logo benar
     const logoUrl = `${origin}/media/icon.png`;
 
     return new ImageResponse(
@@ -23,11 +22,10 @@ export async function GET(request: Request) {
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: '#000000',
-            // Gunakan padding langsung di container utama
             padding: '40px', 
           }}
         >
-          {/* Inner Card dengan Border */}
+          {/* Inner Card */}
           <div
             style={{
               display: 'flex',
@@ -36,15 +34,17 @@ export async function GET(request: Request) {
               height: '100%',
               backgroundColor: '#1a1a1a',
               borderRadius: '30px',
-              border: '2px solid #333', // Sedikit pertebal border
-              padding: '50px', // Internal padding agar konten tidak mepet border
-              justifyContent: 'space-between', // PENTING: Pisahkan Header dan Content
+              border: '2px solid #333',
+              padding: '40px',
+              // Ubah ke flex-start agar kita bisa kontrol posisi konten tengah lebih bebas
+              justifyContent: 'flex-start', 
+              position: 'relative',
             }}
           >
-            {/* --- HEADER ROW (Flexbox, bukan Absolute) --- */}
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            {/* --- HEADER ROW --- */}
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', height: '60px' }}>
               
-              {/* Kiri: Logo & Title */}
+              {/* Logo & Title */}
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
                   src={logoUrl}
@@ -58,49 +58,64 @@ export async function GET(request: Request) {
                 </span>
               </div>
 
-              {/* Kanan: Username */}
-              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', padding: '10px 20px', borderRadius: '12px' }}>
+              {/* Username Badge */}
+              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', padding: '8px 20px', borderRadius: '12px' }}>
                 <span style={{ color: '#ffffff', fontSize: 24, fontWeight: 700, fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
                   @{username}
                 </span>
               </div>
             </div>
 
-            {/* --- CENTER CONTENT (Score & Time) --- */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+            {/* --- CENTER CONTENT (Dibuat Lebih Rapat) --- */}
+            {/* marginTop auto & marginBottom auto akan membuatnya berada persis di tengah sisa ruang */}
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              marginTop: 'auto', 
+              marginBottom: 'auto' 
+            }}>
               
-              {/* Label Score Kecil */}
-              <span style={{ color: '#888', fontSize: 24, letterSpacing: '4px', marginBottom: '10px', fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
+              {/* Label Score */}
+              <span style={{ 
+                color: '#888', 
+                fontSize: 24, 
+                letterSpacing: '4px', 
+                marginBottom: '0px', // Hapus jarak bawah agar nempel ke angka
+                fontFamily: 'sans-serif', 
+                textTransform: 'uppercase' 
+              }}>
                 TOTAL SCORE
               </span>
 
               {/* Angka Score Besar */}
               <span style={{ 
                 color: 'white', 
-                fontSize: 180, 
+                fontSize: 200, 
                 fontWeight: 900, 
-                lineHeight: 1,
+                lineHeight: 1, // Line height 1 agar tidak memakan ruang vertikal kosong
                 fontFamily: 'sans-serif',
-                textShadow: '0 10px 30px rgba(0,0,0,0.5)',
-                marginBottom: '20px'
+                textShadow: '0 10px 40px rgba(0,0,0,0.6)',
+                marginTop: '10px',  // Jarak minimal dari label
+                marginBottom: '10px' // Jarak minimal ke waktu
               }}>
                 {score}
               </span>
               
-              {/* Waktu */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: 'rgba(0, 255, 0, 0.1)', padding: '10px 30px', borderRadius: '50px' }}>
-                <span style={{ color: '#00FF00', fontSize: 40, fontWeight: 700, fontFamily: 'monospace' }}>
-                  {time}
-                </span>
-              </div>
+              {/* Waktu (Tanpa Background) */}
+              <span style={{ 
+                color: '#00FF00', 
+                fontSize: 48, 
+                fontWeight: 700, 
+                fontFamily: 'monospace',
+                letterSpacing: '2px'
+              }}>
+                {time}
+              </span>
             </div>
 
-            {/* --- FOOTER (Opsional, Branding) --- */}
-            <div style={{ display: 'flex', justifyContent: 'center', opacity: 0.4 }}>
-               <span style={{ color: 'white', fontSize: 16, letterSpacing: '2px', fontFamily: 'sans-serif' }}>
-                 PLAY ON WARPCAST
-               </span>
-            </div>
+            {/* Footer dihapus total */}
 
           </div>
         </div>
