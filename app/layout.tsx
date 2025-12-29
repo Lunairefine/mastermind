@@ -42,14 +42,14 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
     version: "next",
-    imageUrl: "https://mastermind-baseapp.vercel.app/media/frame.png",
+    imageUrl: "https://pre-mastermind.vercel.app/media/frame.png",
     button: {
       title: "Play Logic Game",
       action: {
         type: "launch_frame",
         name: "Mastermind Baseapp",
-        url: "https://mastermind-baseapp.vercel.app",
-        splashImageUrl: "https://mastermind-baseapp.vercel.app/media/images/syntax.png",
+        url: "https://pre-mastermind.vercel.app",
+        splashImageUrl: "https://pre-mastermind.vercel.app/media/images/syntax.png",
         splashBackgroundColor: "#000000",
       },
     },
