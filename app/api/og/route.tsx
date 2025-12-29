@@ -4,16 +4,14 @@ export const runtime = 'edge';
 
 export async function GET(request: Request) {
   try {
-    // 1. Dapatkan URL dasar (domain) saat ini agar bisa memanggil gambar di folder public
     const { searchParams, origin } = new URL(request.url);
 
-    const score = searchParams.get('score') || '0';
-    const time = searchParams.get('time') || '00:00';
-    const username = searchParams.get('user') || 'PLAYER';
+    // Safety: Potong teks jika terlalu panjang agar tidak merusak gambar
+    const score = (searchParams.get('score') || '0').slice(0, 6); // Max 6 digit score
+    const time = (searchParams.get('time') || '00:00').slice(0, 10);
+    const username = (searchParams.get('user') || 'PLAYER').slice(0, 12).toUpperCase(); // Max 12 char username
 
-    // 2. Tentukan path ke logo asli Anda.
-    // PASTIKAN file ini ada di folder public/media/ Anda.
-    // Jika nama filenya beda, ubah bagian 'icon.png' ini.
+    // Pastikan path gambar logo benar
     const logoUrl = `${origin}/media/icon.png`;
 
     return new ImageResponse(
@@ -23,80 +21,87 @@ export async function GET(request: Request) {
             height: '100%',
             width: '100%',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: 'column',
             backgroundColor: '#000000',
-            padding: '40px',
+            // Gunakan padding langsung di container utama
+            padding: '40px', 
           }}
         >
-          {/* Kartu Abu-abu Gelap (Rounded) */}
+          {/* Inner Card dengan Border */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
               height: '100%',
-              backgroundColor: '#1a1a1a', 
+              backgroundColor: '#1a1a1a',
               borderRadius: '30px',
-              border: '1px solid #333',
-              position: 'relative',
-              justifyContent: 'center',
-              alignItems: 'center',
+              border: '2px solid #333', // Sedikit pertebal border
+              padding: '50px', // Internal padding agar konten tidak mepet border
+              justifyContent: 'space-between', // PENTING: Pisahkan Header dan Content
             }}
           >
-            {/* Header Kiri: Logo + MASTERMIND */}
-            <div style={{ position: 'absolute', top: 50, left: 50, display: 'flex', alignItems: 'center' }}>
+            {/* --- HEADER ROW (Flexbox, bukan Absolute) --- */}
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
               
-              {/* --- PERUBAHAN DI SINI --- */}
-              {/* Kita HAPUS div kotak warna-warni, ganti dengan tag <img> */}
-              <img
-                src={logoUrl}
-                alt="Mastermind Logo"
-                width="40"
-                height="40"
-                style={{ 
-                  borderRadius: '8px', 
-                  marginRight: '15px' 
-                }}
-              />
-              {/* ------------------------- */}
+              {/* Kiri: Logo & Title */}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                  src={logoUrl}
+                  alt="Logo"
+                  width="48"
+                  height="48"
+                  style={{ borderRadius: '8px', marginRight: '16px' }}
+                />
+                <span style={{ color: 'white', fontSize: 32, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: '2px' }}>
+                  MASTERMIND
+                </span>
+              </div>
 
-              <span style={{ color: 'white', fontSize: 28, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: '1px' }}>
-                MASTERMIND
-              </span>
+              {/* Kanan: Username */}
+              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', padding: '10px 20px', borderRadius: '12px' }}>
+                <span style={{ color: '#ffffff', fontSize: 24, fontWeight: 700, fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
+                  @{username}
+                </span>
+              </div>
             </div>
 
-            {/* Header Kanan: Username */}
-            <div style={{ position: 'absolute', top: 50, right: 50, display: 'flex' }}>
-              <span style={{ color: '#ffffff', fontSize: 24, fontWeight: 700, fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
-                @{username}
+            {/* --- CENTER CONTENT (Score & Time) --- */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+              
+              {/* Label Score Kecil */}
+              <span style={{ color: '#888', fontSize: 24, letterSpacing: '4px', marginBottom: '10px', fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
+                TOTAL SCORE
               </span>
-            </div>
 
-            {/* Konten Tengah: Angka Skor Besar & Time */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
+              {/* Angka Score Besar */}
               <span style={{ 
                 color: 'white', 
                 fontSize: 180, 
                 fontWeight: 900, 
                 lineHeight: 1,
                 fontFamily: 'sans-serif',
-                textShadow: '0 4px 20px rgba(0,0,0,0.5)'
+                textShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                marginBottom: '20px'
               }}>
                 {score}
               </span>
               
-              <span style={{ 
-                color: '#00FF00', 
-                fontSize: 50, 
-                fontWeight: 700,
-                marginTop: '10px',
-                fontFamily: 'monospace',
-                letterSpacing: '2px'
-              }}>
-                {time}
-              </span>
+              {/* Waktu */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: 'rgba(0, 255, 0, 0.1)', padding: '10px 30px', borderRadius: '50px' }}>
+                <span style={{ color: '#00FF00', fontSize: 40, fontWeight: 700, fontFamily: 'monospace' }}>
+                  {time}
+                </span>
+              </div>
             </div>
+
+            {/* --- FOOTER (Opsional, Branding) --- */}
+            <div style={{ display: 'flex', justifyContent: 'center', opacity: 0.4 }}>
+               <span style={{ color: 'white', fontSize: 16, letterSpacing: '2px', fontFamily: 'sans-serif' }}>
+                 PLAY ON WARPCAST
+               </span>
+            </div>
+
           </div>
         </div>
       ),
@@ -105,8 +110,8 @@ export async function GET(request: Request) {
         height: 630,
       }
     );
-  } catch (e: any) {
-    console.error(e);
-    return new Response(`Failed to generate the image`, { status: 500 });
+  } catch (error) {
+    console.error(error);
+    return new Response(`Failed to generate image`, { status: 500 });
   }
 }

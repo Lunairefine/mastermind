@@ -49,7 +49,7 @@ export const metadata: Metadata = {
         type: "launch_frame",
         name: "Mastermind Baseapp",
         url: "https://pre-mastermind.vercel.app",
-        splashImageUrl: "https://pre-mastermind.vercel.app/media/images/syntax.png",
+        splashImageUrl: "https://pre-mastermind.vercel.app/media/icon.png",
         splashBackgroundColor: "#000000",
       },
     },

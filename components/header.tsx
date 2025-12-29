@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 
 interface FarcasterUser {
   displayName?: string;
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             pfpUrl: context.user.pfpUrl,
           });
         }
-      } catch (error) {
+      } catch {
       } finally {
         setIsLoaded(true);
       }

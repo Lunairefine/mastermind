@@ -1,11 +1,9 @@
-// src/components/ClientHome.tsx
-"use client"; // File ini boleh pakai 'use client'
-
+"use client";
 import React, { useState } from 'react';
+import { Poppins } from 'next/font/google';
 import Landing from '@/components/landing';
 import Gameboard from '@/components/gameboard';
 import Status from '@/components/status';
-import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
   weight: ['400', '600', '700', '800', '900'],
