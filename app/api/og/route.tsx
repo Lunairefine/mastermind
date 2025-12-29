@@ -5,66 +5,114 @@ export const runtime = 'edge';
 export async function GET(request: Request) {
   try {
     const { searchParams, origin } = new URL(request.url);
-
     const score = (searchParams.get('score') || '0').slice(0, 6);
     const time = (searchParams.get('time') || '00:00').slice(0, 10);
     const username = (searchParams.get('user') || 'PLAYER').slice(0, 12).toUpperCase();
 
-    const logoUrl = `${origin}/media/images/syntax.png`;
+    const logoUrl = `${origin}/media/icon.png`;
 
     return new ImageResponse(
       (
-        <div tw="flex flex-col w-full h-full bg-black p-10">
-          
-          <div tw="flex flex-col w-full h-full bg-[#1a1a1a] rounded-[30px] border-2 border-[#333333] p-10 relative">
-            
-            <div tw="flex justify-between items-center w-full h-16">
-              
-              <div tw="flex items-center">
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#000000',
+            padding: '40px', 
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#1a1a1a',
+              borderRadius: '30px',
+              border: '2px solid #333',
+              padding: '40px',
+              justifyContent: 'flex-start', 
+              position: 'relative',
+            }}
+          >
+
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', height: '60px' }}>
+
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
                   src={logoUrl}
                   alt="Logo"
                   width="48"
                   height="48"
-                  style={{ borderRadius: '8px' }} 
+                  style={{ borderRadius: '8px', marginRight: '16px' }}
                 />
-                <span tw="text-white text-4xl font-black tracking-widest ml-4">
+                <span style={{ color: 'white', fontSize: 32, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: '2px' }}>
                   MASTERMIND
                 </span>
               </div>
 
-              <div tw="flex items-center bg-[#333333] px-5 py-2 rounded-xl">
-                <span tw="text-white text-2xl font-bold uppercase">
+              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', padding: '8px 20px', borderRadius: '12px' }}>
+                <span style={{ color: '#ffffff', fontSize: 24, fontWeight: 700, fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
                   @{username}
                 </span>
               </div>
             </div>
 
-            <div tw="flex flex-col items-center justify-center my-auto">
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              marginTop: 'auto', 
+              marginBottom: 'auto' 
+            }}>
               
-              <span tw="text-[#888888] text-2xl tracking-[0.25em] font-sans uppercase m-0">
+              <span style={{ 
+                color: '#888', 
+                fontSize: 24, 
+                letterSpacing: '4px', 
+                marginBottom: '0px',
+                fontFamily: 'sans-serif', 
+                textTransform: 'uppercase' 
+              }}>
                 TOTAL SCORE
               </span>
 
-              <span tw="text-white text-[200px] font-black leading-none mt-2 mb-2 shadow-2xl">
+              <span style={{ 
+                color: 'white', 
+                fontSize: 200, 
+                fontWeight: 900, 
+                lineHeight: 1,
+                fontFamily: 'sans-serif',
+                textShadow: '0 10px 40px rgba(0,0,0,0.6)',
+                marginTop: '10px',
+                marginBottom: '10px'
+              }}>
                 {score}
               </span>
               
-              <span tw="text-[#00FF00] text-5xl font-bold font-mono tracking-widest">
+              <span style={{ 
+                color: '#00FF00', 
+                fontSize: 48, 
+                fontWeight: 700, 
+                fontFamily: 'monospace',
+                letterSpacing: '2px'
+              }}>
                 {time}
               </span>
-
             </div>
-
           </div>
         </div>
       ),
       {
-        width: 1200,
+        width: 1000,
         height: 630,
       }
     );
   } catch (error) {
+    console.error(error);
     return new Response(`Failed to generate image`, { status: 500 });
   }
 }
