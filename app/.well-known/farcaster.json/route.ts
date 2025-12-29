@@ -5,7 +5,7 @@ export async function GET() {
 
   const manifest = {
   "miniapp": {
-    "name": "Mastermind",
+    "name": "Preview Mastermind",
     "version": "1",
     "iconUrl": "https://pre-mastermind.vercel.app/media/icon.png",
     "homeUrl": "https://pre-mastermind.vercel.app/",
