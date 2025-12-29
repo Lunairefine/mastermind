@@ -24,7 +24,7 @@ export async function generateMetadata(
 
   // 2. JIKA ADA SKOR (Link Share)
   // Gunakan API Route untuk generate gambar dinamis
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://mastermind-baseapp.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://pre-mastermind.vercel.app';
   
   // NOTE: Gunakan API OG agar angkanya berubah sesuai skor
   // Jika Anda pakai status.png statis, ganti baris ini jadi: const imageUrl = `${baseUrl}/media/status.png`;
