@@ -1,41 +1,40 @@
-import { redirect } from "next/navigation";
+"use client";
 
-type Props = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+import { useEffect } from "react";
 
-const getParam = (v?: string | string[]) =>
-  Array.isArray(v) ? v[0] : v;
+export default function SharePage() {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
 
-export default function SharePage({ searchParams }: Props) {
-  const score = getParam(searchParams.score) ?? "0";
-  const time = getParam(searchParams.time) ?? "00:00";
-  const user = getParam(searchParams.user) ?? "player";
+    const score = params.get("score") ?? "0";
+    const time = params.get("time") ?? "00:00";
+    const user = params.get("user") ?? "player";
 
-  const text = `My score is ${score} in ${time} time in Mastermind Game\nCan you do better?`;
+    const text = `My score is ${score} in ${time} time in Mastermind Game\nCan you do better?`;
 
-  const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL?.startsWith("http")
-      ? process.env.NEXT_PUBLIC_APP_URL
-      : `https://${process.env.NEXT_PUBLIC_APP_URL ?? "pre-mastermind.vercel.app"}`;
+    const appUrl = window.location.origin;
+    const embedUrl = `${appUrl}?score=${score}&time=${time}&user=${user}&t=${Date.now()}`;
 
-  const embedUrl = `${appUrl}?score=${encodeURIComponent(score)}&time=${encodeURIComponent(time)}&user=${encodeURIComponent(user)}`;
+    const encodedText = encodeURIComponent(text);
+    const encodedEmbed = encodeURIComponent(embedUrl);
 
-  const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
+    const ua = navigator.userAgent.toLowerCase();
 
-  if (ua.includes("farcaster")) {
-    redirect(
-      `https://farcaster.xyz/~/compose?text=${encodeURIComponent(text)}&embeds[]=${encodeURIComponent(embedUrl)}`
-    );
-  }
+    if (ua.includes("farcaster")) {
+      window.location.href =
+        `https://farcaster.xyz/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`;
+      return;
+    }
 
-  if (ua.includes("base")) {
-    redirect(
-      `https://base.app/share?text=${encodeURIComponent(text)}&url=${encodeURIComponent(embedUrl)}`
-    );
-  }
+    if (ua.includes("base")) {
+      window.location.href =
+        `https://base.app/share?text=${encodedText}&url=${encodedEmbed}`;
+      return;
+    }
 
-  redirect(
-    `https://farcaster.xyz/~/compose?text=${encodeURIComponent(text)}&embeds[]=${encodeURIComponent(embedUrl)}`
-  );
+    window.location.href =
+      `https://farcaster.xyz/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`;
+  }, []);
+
+  return null;
 }
