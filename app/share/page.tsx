@@ -1,54 +1,41 @@
-"use client";
+import { redirect } from "next/navigation";
 
-import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import sdk from "@farcaster/miniapp-sdk";
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-export default function SharePage() {
-  const params = useSearchParams();
+const getParam = (v?: string | string[]) =>
+  Array.isArray(v) ? v[0] : v;
 
-  useEffect(() => {
-    const score = params.get("score");
-    const time = params.get("time");
-    const user = params.get("user");
+export default function SharePage({ searchParams }: Props) {
+  const score = getParam(searchParams.score) ?? "0";
+  const time = getParam(searchParams.time) ?? "00:00";
+  const user = getParam(searchParams.user) ?? "player";
 
-    if (!score || !time) return;
+  const text = `My score is ${score} in ${time} time in Mastermind Game\nCan you do better?`;
 
-    const text =
-      `I scored ${score} in ${time} playing Mastermind 🎯\n` +
-      `Can you beat my score?`;
+  const appUrl =
+    process.env.NEXT_PUBLIC_APP_URL?.startsWith("http")
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : `https://${process.env.NEXT_PUBLIC_APP_URL ?? "pre-mastermind.vercel.app"}`;
 
-    const appUrl = window.location.origin + `/?score=${score}&time=${time}&user=${user}`;
+  const embedUrl = `${appUrl}?score=${encodeURIComponent(score)}&time=${encodeURIComponent(time)}&user=${encodeURIComponent(user)}`;
 
-    const encodedText = encodeURIComponent(text);
-    const encodedEmbed = encodeURIComponent(appUrl);
+  const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
 
-    const isFarcaster =
-      typeof sdk !== "undefined" &&
-      sdk?.context !== undefined;
+  if (ua.includes("farcaster")) {
+    redirect(
+      `https://farcaster.xyz/~/compose?text=${encodeURIComponent(text)}&embeds[]=${encodeURIComponent(embedUrl)}`
+    );
+  }
 
-    if (isFarcaster) {
-      window.location.replace(
-        `https://farcaster.xyz/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`
-      );
-      return;
-    }
+  if (ua.includes("base")) {
+    redirect(
+      `https://base.app/share?text=${encodeURIComponent(text)}&url=${encodeURIComponent(embedUrl)}`
+    );
+  }
 
-    if (navigator.share) {
-      navigator.share({
-        title: "Mastermind Game",
-        text,
-        url: appUrl,
-      });
-      return;
-    }
-
-    window.location.replace(appUrl);
-  }, [params]);
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      Sharing your score…
-    </div>
+  redirect(
+    `https://farcaster.xyz/~/compose?text=${encodeURIComponent(text)}&embeds[]=${encodeURIComponent(embedUrl)}`
   );
 }
