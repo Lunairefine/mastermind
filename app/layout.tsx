@@ -54,7 +54,7 @@ export const metadata: Metadata = {
       },
     },
   }),
-    'base:app_id': '694f94ccc63ad876c9081554',
+    'base:app_id': '695332b4c63ad876c90818d7',
   },
 };
 
