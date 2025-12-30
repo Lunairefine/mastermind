@@ -23,8 +23,7 @@ export async function GET(request: Request) {
             padding: '40px', 
           }}
         >
-          <div
-            style={{
+          <div style={{
               display: 'flex',
               flexDirection: 'column',
               width: '100%',
@@ -39,7 +38,6 @@ export async function GET(request: Request) {
           >
 
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', height: '60px' }}>
-
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
                   src={logoUrl}
@@ -52,14 +50,12 @@ export async function GET(request: Request) {
                   MASTERMIND
                 </span>
               </div>
-
               <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', padding: '8px 20px', borderRadius: '12px' }}>
                 <span style={{ color: '#ffffff', fontSize: 24, fontWeight: 700, fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
                   @{username}
                 </span>
               </div>
             </div>
-
             <div style={{ 
               display: 'flex', 
               flexDirection: 'column', 
