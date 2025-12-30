@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const appUrl = "https://pre-mastermind.vercel.app";
+  const appUrl = "https://mastermind-baseapp.vercel.app/";
 
   const manifest = {
   "miniapp": {
-    "name": "Preview Mastermind",
+    "name": "Mastermind",
     "version": "1",
-    "iconUrl": "https://pre-mastermind.vercel.app/media/icon.png",
-    "homeUrl": "https://pre-mastermind.vercel.app/",
+    "iconUrl": "https://mastermind-baseapp.vercel.app/media/icon.png",
+    "homeUrl": "https://mastermind-baseapp.vercel.app/",
     "buttonTitle": "Play Logic Game",
-    "splashImageUrl": "https://pre-mastermind.vercel.app/media/icon.png",
+    "splashImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png",
     "splashBackgroundColor": "#000000",
     "subtitle": "Play Logic Color Game",
     "description": "A simple yet challenging color puzzle game that tests logic, pattern recognition, and strategic thinking.",
@@ -19,12 +19,12 @@ export async function GET() {
     "noindex": false,
     "tagline": "Play game",
     "ogTitle": "Mastermind Baseapp",
-    "heroImageUrl": "https://pre-mastermind.vercel.app/media/icon.png"
+    "heroImageUrl": "https://mastermind-baseapp.vercel.app/media/icon.png"
   },
   "accountAssociation": {
     "header": "eyJmaWQiOjU0ODczNSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDk1MDU2QUM2QUY2YjMzNjg2MTY2MkQ4N0YyNzRBODgyNzEzZmUxNkUifQ",
-    "payload": "eyJkb21haW4iOiJwcmUtbWFzdGVybWluZC52ZXJjZWwuYXBwIn0",
-    "signature": "jST6hPTlb961e0gpyiyLkQnszCAlQa3Xnb40WLNk3z8KWn7oa67xd5nCgk6XyubyzqlX0snf72c0Cnh9DCCc5xw="
+    "payload": "eyJkb21haW4iOiJtYXN0ZXJtaW5kLWJhc2VhcHAudmVyY2VsLmFwcCJ9",
+    "signature": "T4Q7WKPnhLmkSJZbQbMi8Kwle/dTa+WPNC9JxIf7et8DDDfn3Cd8CNBcl/6T6AX/7E1uNSLV0bqNCnB5XaWxqBs="
   },
     "BaseBuilder": {
         "ownerAddress": "0x66D89085a083d18a5F0FbdDc4AC2DBe57D3B8031"

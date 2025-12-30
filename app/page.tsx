@@ -20,7 +20,7 @@ export async function generateMetadata(
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL
     ? `https://${process.env.NEXT_PUBLIC_APP_URL}`
-    : 'https://pre-mastermind.vercel.app';
+    : 'https://mastermind-baseapp.vercel.app';
 
   if (!score) {
     return {};
