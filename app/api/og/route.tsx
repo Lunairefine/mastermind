@@ -8,43 +8,98 @@ export async function GET(request: Request) {
     const score = (searchParams.get('score') || '0').slice(0, 6);
     const time = (searchParams.get('time') || '00:00').slice(0, 10);
     const username = (searchParams.get('user') || 'PLAYER').slice(0, 12).toUpperCase();
+
     const logoUrl = `${origin}/media/icon.png`;
 
     return new ImageResponse(
       (
-        <div className="flex h-full w-full flex-col bg-black p-10">
-          <div className="relative flex h-full w-full flex-col justify-start rounded-[30px] border-2 border-[#333] bg-[#1a1a1a] p-10">
-            <div className="flex h-[60px] w-full flex-row items-center justify-between">
-              <div className="flex items-center">
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#000000',
+            padding: '40px', 
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#1a1a1a',
+              borderRadius: '30px',
+              border: '2px solid #333',
+              padding: '40px',
+              justifyContent: 'flex-start', 
+              position: 'relative',
+            }}
+          >
+
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', height: '60px' }}>
+
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
                   src={logoUrl}
                   alt="Logo"
                   width="48"
                   height="48"
-                  className="mr-4 rounded-lg"
+                  style={{ borderRadius: '8px', marginRight: '16px' }}
                 />
-                <span className="text-[32px] font-black tracking-widest text-white">
+                <span style={{ color: 'white', fontSize: 32, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: '2px' }}>
                   MASTERMIND
                 </span>
               </div>
-              <div className="flex items-center rounded-xl bg-[#333] px-5 py-2">
-                <span className="text-2xl font-bold uppercase text-white">
+
+              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#333', padding: '8px 20px', borderRadius: '12px' }}>
+                <span style={{ color: '#ffffff', fontSize: 24, fontWeight: 700, fontFamily: 'sans-serif', textTransform: 'uppercase' }}>
                   @{username}
                 </span>
               </div>
             </div>
-            <div className="mb-auto mt-auto flex flex-col items-center justify-center">
-              <span className="mb-0 text-2xl uppercase tracking-[4px] text-[#888]">
+
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              marginTop: 'auto', 
+              marginBottom: 'auto' 
+            }}>
+              
+              <span style={{ 
+                color: '#888', 
+                fontSize: 24, 
+                letterSpacing: '4px', 
+                marginBottom: '0px',
+                fontFamily: 'sans-serif', 
+                textTransform: 'uppercase' 
+              }}>
                 TOTAL SCORE
               </span>
-              <span 
-                className="my-2 text-[200px] font-black leading-none text-white"
-                style={{ textShadow: '0 10px 40px rgba(0,0,0,0.6)' }}
-              >
+
+              <span style={{ 
+                color: 'white', 
+                fontSize: 200, 
+                fontWeight: 900, 
+                lineHeight: 1,
+                fontFamily: 'sans-serif',
+                textShadow: '0 10px 40px rgba(0,0,0,0.6)',
+                marginTop: '10px',
+                marginBottom: '10px'
+              }}>
                 {score}
               </span>
               
-              <span className="font-mono text-5xl font-bold tracking-widest text-[#00FF00]">
+              <span style={{ 
+                color: '#00FF00', 
+                fontSize: 48, 
+                fontWeight: 700, 
+                fontFamily: 'monospace',
+                letterSpacing: '2px'
+              }}>
                 {time}
               </span>
             </div>
