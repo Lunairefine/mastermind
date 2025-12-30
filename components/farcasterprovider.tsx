@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default function FarcasterProvider({ children }: Props) {
-
   useEffect(() => {
     let isMounted = true;
 
@@ -20,13 +19,10 @@ export default function FarcasterProvider({ children }: Props) {
         console.error("Farcaster SDK Init Error:", error);
       }
     };
-
     initSdk();
-
     return () => {
       isMounted = false;
     };
   }, []);
-
   return <>{children}</>;
 }

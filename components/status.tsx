@@ -33,24 +33,19 @@ const Status: React.FC<StatusProps> = ({ score, time, isWin, onHome }) => {
     appUrl.searchParams.set('t', Date.now().toString());
 
     const text = `My score is ${score} in ${time} time in Mastermind Game\nCan you do better?`;
-
     const encodedText = encodeURIComponent(text);
     const encodedEmbed = encodeURIComponent(appUrl.toString());
 
-    window.open(`https://farcaster.com/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`, '_blank');
+    window.open(`https://farcaster.xyz/~/compose?text=${encodedText}&embeds[]=${encodedEmbed}`, '_blank');
   };
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-black/95 p-6 backdrop-blur-sm select-none" style={{ WebkitTapHighlightColor: 'transparent' }}>
-      
       <div className="flex-1" />
-
       <div className="w-full max-w-xs border border-white/20 rounded-3xl p-8 flex flex-col items-center justify-center bg-black shadow-[0_0_30px_rgba(255,255,255,0.05)]">
-        
         <h2 className={`text-2xl font-black tracking-[0.2em] mb-10 ${isWin ? 'text-white' : 'text-[#ff0000]'}`}>
           {isWin ? 'VICTORY' : 'GAME OVER'}
         </h2>
-
         <div className="flex flex-col items-center gap-1 mb-6">
           <span className="text-white font-bold tracking-widest text-xs uppercase">TIME :</span>
           <span className={`text-2xl font-bold tracking-wider ${isWin ? 'text-[#00FF00]' : 'text-[#FF0000]'}`}>
@@ -64,7 +59,6 @@ const Status: React.FC<StatusProps> = ({ score, time, isWin, onHome }) => {
             {score}
           </span>
         </div>
-
       </div>
 
       <div className="mt-8 w-full max-w-xs flex gap-3 h-14">
@@ -74,7 +68,6 @@ const Status: React.FC<StatusProps> = ({ score, time, isWin, onHome }) => {
         >
           HOME
         </button>
-
         <button
           onClick={handleShare}
           className="aspect-square h-full bg-[#0052FF] text-white flex items-center justify-center rounded-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-[0_0_15px_rgba(0,82,255,0.4)] focus:outline-none"
@@ -88,7 +81,6 @@ const Status: React.FC<StatusProps> = ({ score, time, isWin, onHome }) => {
       </div>
 
       <div className="flex-1" />
-
       <div className="text-center pb-4 opacity-40">
         <p className="text-[10px] text-white font-mono tracking-widest uppercase">
           Created by lunairefine

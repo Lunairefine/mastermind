@@ -125,7 +125,6 @@ const Gameboard: React.FC<GameboardProps> = ({ onGameOver }) => {
           CHANCE {activeRowIndex + 1}/{MAX_ROWS}
         </span>
       </div>
-
       <div className="flex-1 w-full px-6 py-2 flex flex-col justify-center min-h-0">
         <div className="flex flex-col-reverse justify-between h-full w-full">
             {rows.map((row, rIndex) => {
@@ -151,7 +150,6 @@ const Gameboard: React.FC<GameboardProps> = ({ onGameOver }) => {
                     />
                     ))}
                 </div>
-
                 <div className="grid grid-cols-2 gap-1.5 h-[60%] aspect-square">
                     {[0, 1, 2, 3].map((i) => {
                     const type = row.feedback[i];
